@@ -5,7 +5,7 @@ let cliente = {
 };
 
 const btnGuardarCliente = document.querySelector('#guardar-cliente');
-btnGuardarCliente.addEventListener('click', btnGuardarCliente);
+btnGuardarCliente.addEventListener('click', guardarCliente);
 
 function guardarCliente(){
 const mesa = document.querySelector('#mesa').value;
@@ -16,8 +16,35 @@ const hora = document.querySelector('#hora').value;
 const camposVacios = [mesa, hora].some( campo => campo === '' )
 
 if(camposVacios) {
-    console.log ('Si hay almenos un campo vacio');
-} else {
-    console.log('Todos los campos estan llenos')
+    //Verificar si ya hay una alerta
+    const existeAlerta = document.querySelector('.invalid-feedback');
+    
+    if(!existeAlerta){
+        const alerta = document.createElement('div');
+        alerta.classList.add('invalid-feedback', 'd-block', 'text-center');
+        alerta.textContent = 'Todos los campos son Obligatorios';
+        document.querySelector('.modal-body form').appendChild(alerta);
+        
+        // Eliminar la alerta
+
+        setTimeout(() => {
+            alerta.remove();
+        }, 3000);
+    }
+    return;
+}  
+ 
+// Asignar datos del formulario a cliente
+
+cliente = {...cliente, mesa, hora}
+
+console.log(cliente);
+
+// Ocultar Modal
+
+const modalFormulario = document.querySelector('#formulario');
+const modalBootstrap = bootstrap.Modal.getInstance(modalFormulario);
+modalBootstrap.hide();
+
 }
-}
+
